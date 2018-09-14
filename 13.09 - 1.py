@@ -31,7 +31,7 @@ velocidade = -300
 delta = 150         # delta de velocidade ao ajeitar caminho
 v_curva = -200      # velocidade em curvas
 
-pos_dir = 425       # as curvas
+pos_dir = 425      # as curvas
 pos_esq = pos_dir
 pos_volta = 2 * pos_dir     # quantidade angular de giro dos motores para
 
@@ -249,18 +249,19 @@ def aprender(aprendizado):
 
 def rampa_ida():
     print("na rampa")
+    recuar()
+    recuar()
     meiaVolta()
     saindoReto()
     robot.ida += 1
     avancar(1000)
-    sleep(1)
     aprendizado.reverse()
 
 def testaCor(cor):          # retorna True se a variável 'cor' for cor
-    if cor in (2,3,4,5):
-        return True
+    if cor in (2,3,4,5):   # azul verde amarelo vermelho
+        return cor
     else:
-        return False
+        return 9
 
 def testaRampa():
     cor1 = [0,0,0]   # Vou testar 3 leituras de cor
@@ -269,22 +270,14 @@ def testaRampa():
     cor1[1] = corCheck.value()
     avancar(x_avancar/2)
     cor1[2] = corCheck.value()
-    cor1.sort()
 
-    cor2 = [0,0,0]   # Vou testar 3 leituras de cor
-    cor2[2] = corCheck.value()
-    avancar(-x_avancar/2)
-    cor2[1] = corCheck.value()
-    avancar(-x_avancar/2)
-    cor2[0] = corCheck.value()
-    cor2.sort()
-
-
-
-    print("cor -", cor1, ": aprendizado -", aprendizado)
-    if cor1 == aprendizado:
-        return True
-    return False
+    if cor1[0] == cor1[1]:
+        return False
+    else:
+        if cor1[1] == cor1[2]:
+            return False
+        else:
+            return True
 
 def vendoBranco():
     andaReto()          # Quando ve branco, anda reto
@@ -307,7 +300,10 @@ def vendoCor():
         if not sabeCor( robot.corAntiga ):
             aprender(aprendizado)
         executaCor( corCheck.value() )
-        robot.ladrilhos += 1
+        if robot.ida == 0:
+            robot.ladrilhos += 1
+        if robot.ida == 1:
+            robot.ladrilhos -= 1
         robot.corAntiga = corAtual
     else:
         if robot.corAntiga == 1:
@@ -325,6 +321,7 @@ def vendoCor():
             curvaDir()
             saindoReto()
             robot.corAntiga = corAtual
+
 
 def vendoNada():                # Quando ve no-color
     pass                        # o termo 'pass' indica que a funcao nao fara nada
@@ -345,8 +342,7 @@ def interpretaCor(cor):         # sendo 'cor' a cor vista por corCheck
             rampa_ida()
 
 def pegaBonecos():
-    pass
-
+    tocaMusiquinha(starWars)
 
 # -------------------------------------
 #------- Main comeca aqui! ------------
@@ -364,6 +360,10 @@ while True:
     if robot.ida == 0:                            # Enquanto o robot estiver na ida
         interpretaCor( corCheck.value() )       # interpreta a cor do corCheck (veja interpretaCor)
     if robot.ida == 1:
-        interpretaCor( corCheck.value() )
+        while robot.ladrilhos !=0:
+            interpretaCor( corCheck.value() )
+        meiaVolta()
+        aprendizado.reverse()
+        robot.ida=2
     if robot.ida == 2:
         pegaBonecos()
