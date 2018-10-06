@@ -68,51 +68,6 @@ class Robot:
 
 robot = Robot()
 
-def tocaMusica(tupla):
-    while True:
-        ev3.Sound.play_song(tupla).wait()
-        sleep(1)
-
-def tocaMusiquinha():
-    tocaMusica(starWars)
-
-starWars = (('D4', 'e3'),      # intro anacrouse
-        ('D4', 'e3'),
-        ('D4', 'e3'),
-        ('G4', 'h'),       # meas 1
-        ('D5', 'h'),
-        ('C5', 'e3'),      # meas 2
-        ('B4', 'e3'),
-        ('A4', 'e3'),
-        ('G5', 'h'),
-        ('D5', 'q'),
-        ('C5', 'e3'),      # meas 3
-        ('B4', 'e3'),
-        ('A4', 'e3'),
-        ('G5', 'h'),
-        ('D5', 'q'),
-        ('C5', 'e3'),      # meas 4
-        ('B4', 'e3'),
-        ('C5', 'e3'),
-        ('A4', 'h.'),)
-
-beethoven = (
-            ('E4', 'q'),
-            ('E4', 'q'),
-            ('F4', 'q'),
-            ('G4', 'q'),
-            ('G4', 'q'),
-            ('F4', 'q'),
-            ('E4', 'q'),
-            ('D4', 'q'),
-            ('C4', 'q'),
-            ('C4', 'q'),
-            ('D4', 'q'),
-            ('E4', 'q'),
-            ('E4', 'h'),
-            ('D4', 'e3'),
-            ('D4', 'h'),)
-
 def abrirAprendizado():
     ## try: tenta abrir um arquivo de aprendizado
     try:
@@ -402,20 +357,6 @@ def imprimiDistancia():
 # -------------------------------------
 #------- Main comeca aqui! ------------
 # -------------------------------------
-
-p1 = Process(target = imprimeCores)
-p1.start()
-
-#def roboContador():
-#    while True:
-#        print("contador", robot.contador)
-#        sleep(2)
-
-#p2 = Process(target = imprimiDistancia)
-#p2.start()
-
-#p2 = Process(target = tocaMusiquinha)
-#p2.start()
 
 while True:
     if robot.ida == 0:                            # Enquanto o robot estiver na ida
